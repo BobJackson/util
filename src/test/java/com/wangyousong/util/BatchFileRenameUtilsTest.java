@@ -1,32 +1,26 @@
 package com.wangyousong.util;
 
 
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 
 public class BatchFileRenameUtilsTest {
 
-    private String pathname;
-    private String keywords;
-
-    @Before
-    public void setUp() {
-        pathname = "D:\\BaiduYunDownload\\test\\1";
-        keywords = "[www.52yzzy.com 吾爱优质资源网] ";
-    }
-
 
     @Test
-    public void replaceFilenameWithKeywordsAtHead() throws Exception {
+    public void replaceFilenameWithKeywordsAtHead() {
+        String pathname = "D:\\BaiduYunDownload\\test\\1";
+        String keywords = "[www.52yzzy.com 吾爱优质资源网] ";
         BatchFileRenameUtils.removeFilenameWithKeywordsAtHead(pathname, keywords);
         try {
-            assertEquals(Arrays.stream(new File(pathname)
-                    .listFiles()).filter(a -> a.getName().contains(keywords))
+            assertEquals(Arrays.stream(Objects.requireNonNull(new File(pathname)
+                    .listFiles())).filter(a -> a.getName().contains(keywords))
                     .count(), 0);
         } catch (Exception e) {
             if (e instanceof NullPointerException) {
@@ -34,6 +28,11 @@ public class BatchFileRenameUtilsTest {
             }
         }
 
+    }
+
+    @Test
+    public void replaceFilenameWithTextFileContent() throws IOException {
+        BatchFileRenameUtils.replaceFilenameWithTextFileContent("D:\\Xunlei Download\\temp", true);
     }
 
 
