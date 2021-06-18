@@ -35,5 +35,10 @@ public class BatchFileRenameUtilsTest {
         BatchFileRenameUtils.replaceFilenameWithTextFileContent("D:\\Xunlei Download\\temp", true);
     }
 
+    @Test
+    public void should_rename_torrent_files_using_parent_folder_name() {
+        File path = new File("D:\\迅雷下载");
+        BatchFileRenameUtils.renameTorrentFilesUsingParentFolderName(path);
+    }
 
 }

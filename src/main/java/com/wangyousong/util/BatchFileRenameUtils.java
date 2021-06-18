@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
  */
 public class BatchFileRenameUtils {
     private static final Logger logger = Logger.getLogger(BatchFileRenameUtils.class.getName());
+    public static final String TORRENT = ".torrent";
 
     /**
      * <p>
@@ -101,4 +102,24 @@ public class BatchFileRenameUtils {
     }
 
 
+    /**
+     * 重命名torrent文件使用父级文件夹名称，同时会移动到path路径
+     *
+     * @param path 初始文件夹目录
+     */
+    public static void renameTorrentFilesUsingParentFolderName(File path) {
+        Arrays.stream(Objects.requireNonNull(path.listFiles()))
+                .collect(Collectors.toList()).forEach(file -> {
+            String finallyFilename = file.getName();
+            List<File> torrents = Arrays.stream(Objects.requireNonNull(file.listFiles()))
+                    .filter(pathname -> pathname.getName().contains(TORRENT))
+                    .collect(Collectors.toList());
+            if (Arrays.stream(Objects.requireNonNull(file.listFiles())).anyMatch(t -> t.getName().contains(".bt.xltd"))) {
+                String filename = path.getAbsolutePath() + File.separator + finallyFilename + TORRENT;
+                System.out.println(torrents.get(0).getName() + " will rename to " + filename);
+                boolean renameResult = torrents.get(0).renameTo(new File(filename));
+                System.out.println("renameResult : " + renameResult);
+            }
+        });
+    }
 }
